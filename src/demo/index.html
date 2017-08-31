@@ -4,9 +4,13 @@
 		<meta charset="UTF-8">
 		<title>音乐盒</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<link href="css/publicBase.css" rel="stylesheet" type="text/css" />
 		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<style>
+			body {height: 100%;padding: 50px 0;}
 			.logo{height: 25px;width: 25px;}
+			.main{padding: 8% 10px;}
+			.music-logo{max-width: 450px;}
 		</style>
 	</head>
 	<body>
@@ -16,9 +20,26 @@
 					<a class="navbar-brand" href="#">
 						<img class="logo" alt="音乐" src="img/logo.png">
 					</a>
+					<p class="navbar-text">我的音乐播放器</p>
 				</div>
 			</div>
 		</nav>
+		
+		<section class="container main">
+			<div class="row">
+			  <div class="col-xs-2">&nbsp;</div>
+			  <div class="col-xs-8 text-center">
+			  	<img class="img-circle music-logo" src="img/songImg.jpg" />
+			  </div>
+			  <div class="col-xs-2">&nbsp;</div>
+			</div>
+		</section>
+		
+		<nav class="navbar navbar-inverse navbar-fixed-bottom">
+		  <div class="container">
+		  	
+		  </div>
+		</nav
 		
 	</body>
 </html>
