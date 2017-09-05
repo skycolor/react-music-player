@@ -1,22 +1,30 @@
-require('normalize.css/normalize.css');
-require('styles/App.css');
-
 import React from 'react';
+import { BrowserRouter as Router , Route } from 'react-router-dom'
 
-let yeomanImage = require('../images/yeoman.png');
+/*引入组件*/
+import Header from './Header';
+import Footer from './Footer';
+import Player from './Player';
+import MusicList from './MusicList';
 
 class AppComponent extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-      </div>
-    );
-  }
+	render() {
+	    return (
+	    	  <Router>
+		      <div>
+		  		<Header />
+				<Route exact path="/" component={Player}/>
+		      	<Route path="/player" component={Player}/>
+		      	<Route path="/list" component={MusicList}/>
+		  		<Footer />
+		      </div>
+	      </Router>
+	    );
+	}
 }
 
 AppComponent.defaultProps = {
+	
 };
 
-export default AppComponent;
+export default AppComponent
