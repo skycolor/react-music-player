@@ -1,0 +1,36 @@
+.main {
+    padding: 50px 20px;
+    @at-root {
+        .music-logo {
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 25px 10px #AAA;
+            animation: rotate 20s linear infinite;
+        }
+        .music-title {
+            margin-top: 50px;
+        }
+        .music-progress {
+            margin-top: 85px;
+        }
+        .music-progress-col {
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        .music-progress-main {
+            height: 3px;
+        }
+        
+        
+        @keyframes rotate{
+            0%{transform:rotate(0deg);}
+            50%{transform:rotate(180deg);}
+            100%{transform:rotate(360deg);}
+        }
+        @-webkit-keyframes rotate{
+            0%{-webkit-transform:rotate(0deg);}
+            50%{-webkit-transform:rotate(180deg);}
+            100%{-webkit-transform:rotate(360deg);}
+        }
+    }
+}

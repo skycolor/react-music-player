@@ -1,0 +1,7 @@
+.list {
+    margin-bottom: 50px;
+    @at-root {
+        a{color: #fff;}
+        a.cur{color: skyblue;}
+    }
+}
