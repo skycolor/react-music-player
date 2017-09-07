@@ -1,7 +1,7 @@
 .list {
     margin-bottom: 50px;
     @at-root {
-        a{color: #fff;}
+        a{color: #fff;display: block;}
         a.cur{color: skyblue;}
     }
 }

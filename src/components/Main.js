@@ -17,7 +17,7 @@ class AppComponent extends React.Component {
 		      <div>
 		  		<Header />
 				<Route exact path='/' component={Player}/>
-		      	<Route path='/player' component={Player}/>
+		      	<Route path='/player/:index' component={Player}/>
 		      	<Route path='/list' component={MusicList}/>
 		  		<Footer />
 		      </div>

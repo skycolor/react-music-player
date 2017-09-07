@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>请求QQ音乐测试</title>
 	</head>
+
 	<body>
 		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js" type="application/javascript"></script>
 		<script>
@@ -13,16 +15,14 @@
 				url : requestUrl ,
 				dataType : "json" ,
 				success: function(data) {
-					console.log(this)
-			        //console.log(data);
-			    }.bind(this),
-			    error : function(){
-			    		console.log("err");
-			    } ,
-			    beforeSend: function(xhr) {
-			        xhr.setRequestHeader("Authorization", "APPCODE a79b7a6118d54c2eaf7a1781b820fa73");
-			    }
+			      console.log(data);
+			  }.bind(this),
+			  beforeSend: function(xhr) {
+			      xhr.setRequestHeader("Authorization", "APPCODE a79b7a6118d54c2eaf7a1781b820fa73");
+			  }
 			});
+
 		</script>
 	</body>
+
 </html>

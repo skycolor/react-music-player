@@ -1,30 +1,52 @@
 import React from 'react';
 
-//初始化参数
-const songImg = require('../imgs/songImg.jpg');
+//引入工具包
+import $ from 'jquery';
+import storeUtil from '../tool/store.js'
 
 //引入样式
 require('../styles/player.scss');
 
 class Player extends React.Component {
+  constructor(props) {
+  	 super(props);
+  	 this.state = {
+        songlist : [] ,
+        playItem : {
+        		
+        }
+    };
+  }
+  componentDidMount(){     /*渲染完成执行函数*/
+ 	let index = this.props.match.params.index;
+	let list = storeUtil.getObj();
+	if(list && list.length > 0 ){
+		this.setState({
+        		songlist : list ,
+        		playItem : list[index || 0]
+        });
+	}else
+		this.reqQQmusic();
+  }
   render() {
+  	
     return (
 		<section className="container text-center main">
 			<div className="row">
 			  <div className="col-xs-2">&nbsp;</div>
 			  <div className="col-xs-8 ">
-			  	<img className="img-circle music-logo" src={songImg} />
+			  	<img className="img-circle music-logo" src={this.state.playItem.albumpic_big} />
 			  </div>
 			  <div className="col-xs-2">&nbsp;</div>
 			</div>
 			<div className="row music-title">
 				<h4>
-					电台情歌
+					{this.state.playItem.songname}
 				</h4>
 			</div>
 			<div className="row" >
 				<h6>
-					邓超
+					{this.state.playItem.singername}
 				</h6>
 			</div>
 			<div className="row music-progress" >
@@ -40,6 +62,27 @@ class Player extends React.Component {
 		</section>
     );
   }
+  reqQQmusic(){						//请求QQ音乐榜单100
+ 	 const requestUrl = 'http://ali-qqmusic.showapi.com/top?topid=6';
+	 $.ajax({
+		type : 'get',
+		url : requestUrl ,
+		dataType : 'json' ,
+		success: (ret) => {
+			let code = ret.showapi_res_code;
+	        if(code != 0)	return;
+	        let list = ret.showapi_res_body.pagebean.songlist;
+	        storeUtil.saveObj(list);			//将请求到的数据保存到localStorage
+	        this.setState({
+	        		songlist : list
+	        });
+		},
+	    beforeSend: (xhr) => {
+			xhr.setRequestHeader('Authorization', 'APPCODE a79b7a6118d54c2eaf7a1781b820fa73');
+		}
+	 });
+  }
 }
+
 
 export default Player;
