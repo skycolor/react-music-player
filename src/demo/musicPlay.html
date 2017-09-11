@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<script type="text/javascript" src='http://www.jplayer.cn/demos/lib/jquery.min.js'></script>
+		<script type="text/javascript" src='http://www.jplayer.cn/demos/dist/jplayer/jquery.jplayer.min.js'></script>
+	</head>
+
+	<body>
+		<div id="test"></div>
+		<script>
+			var musicUrl = "http://ws.stream.qqmusic.qq.com/203753154.m4a?fromtag=46";
+			$("#test").jPlayer({
+				ready: function() {
+					$(this).jPlayer("setMedia", {
+						mp3: musicUrl
+					}).jPlayer("play");
+				}
+			})
+		</script>
+	</body>
+
+</html>

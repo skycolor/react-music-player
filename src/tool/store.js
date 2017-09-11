@@ -1,13 +1,18 @@
-const key = 'sky_react_music_player_data';
+const key = 'sky_react_music_player_data_';
 
 let storeUtil = {
-    localStore : window.localStorage ,
-    saveObj(obj){        //存储对象
-        this.localStore.setItem(key , JSON.stringify(obj));
+    store : window.sessionStorage ,
+    saveList(obj){        //存储列表
+        this.store.setItem(key + "list" , JSON.stringify(obj));
     } ,
-    getObj(){        //获取对象
-        return  JSON.parse(this.localStore.getItem(key) || '[]');
-    }
+    getList(){        //获取列表
+        return  JSON.parse(this.store.getItem(key + "list") || '[]');
+    } ,
+    saveIndex(index){        //存储索引
+        this.store.setItem(key + "index" , index);
+    } ,
+    getIndex(){        //获取索引
+        return  Number(this.store.getItem(key + "index") || 0);
+    } 
 }
-
 module.exports = storeUtil;
