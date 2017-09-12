@@ -23,13 +23,57 @@ class AppComponent extends React.Component {
 	playMusic(playItemIndex) { //播放音乐
 		let playItem = this.state.songlist[playItemIndex];
 		let musicUrl = playItem.url;
+		let _this = this;
 		$("#player").jPlayer({			//音乐播放
 			ready: function() {
 				$(this).jPlayer("setMedia", {
 					mp3: musicUrl
 				}).jPlayer("play");
+				_this.setState({
+					isPlay : true
+				});
+			} ,
+			ended: function() { 			//当前音乐结束后触发事件，默认顺序播放
+				let i = ((index) => {
+					index++;
+					return index >= _this.state.songlist.length ? 0 : index;
+				})(_this.state.playItemIndex);
+				_this.saveIndex(i);
+			    $(this).jPlayer("setMedia", {
+					mp3: _this.state.songlist[i].url
+				}).jPlayer("play");
+			} ,
+			timeupdate : function(e){		//播放时间更新事件
+				PubSub.publish("PLAY_MUSIC_PROGRESS" , parseInt(e.jPlayer.status.currentTime));		
 			}
 		})
+	}
+	changeMusic(index) {			//切换音乐
+		$("#player").jPlayer("setMedia", {
+			mp3: this.state.songlist[index].url
+		}).jPlayer("play");
+	}
+	playOrPause() {			//暂停或者播放
+		if(this.state.isPlay){
+			$("#player").jPlayer("pause");
+			this.setState({isPlay : false});
+		}else{
+			$("#player").jPlayer("play");
+			this.setState({isPlay : true});
+		}
+	}
+	backwardMusic(){			//上一首歌曲
+		let index = this.state.playItemIndex - 1;
+		index = index < 0 ? (this.state.songlist.length - 1) : index;
+		Pubsub.publish('PLAY_MUSIC' , index);
+	}
+	forwardMusic(){			//下一首歌曲
+		let index = this.state.playItemIndex + 1;
+		Pubsub.publish('PLAY_MUSIC' , index);
+	}
+	saveIndex(index){			//存储index
+		this.setState({playItemIndex : index});
+		storeUtil.saveIndex(index);
 	}
 	reqQQmusic(callback) { //请求QQ音乐榜单100
 		const requestUrl = 'http://ali-qqmusic.showapi.com/top?topid=6';
@@ -44,20 +88,24 @@ class AppComponent extends React.Component {
 			if(code != 0) return;
 			let list = data.showapi_res_body.pagebean.songlist;
 			//将请求到的数据保存到sessionStorage
+			this.saveIndex(0); 
 			storeUtil.saveList(list); 
-			storeUtil.saveIndex(0); 
 			this.setState({
-	        		songlist : list ,
-	        		playItemIndex : 0
+	        		songlist : list 
 	        });
 	        callback.call(null);
 		})
 	}
 	bindAndHanlePubsub(){			//绑定订阅发布模式
 		Pubsub.subscribe('PLAY_MUSIC' , (msg , playItemIndex) =>{
-			if(playItemIndex == this.state.playItemIndex) return;
-			this.playMusic(playItemIndex)
-		})
+			//第一步：存储信息
+			this.saveIndex(playItemIndex);
+	        //第二步：切换音乐
+			this.changeMusic(playItemIndex)
+		});
+		Pubsub.subscribe('PLAY_MUSIC_PROGRESS' , (msg , curSecs) =>{
+			
+		});
 	}
 	componentDidMount(){
 		//第一步：配置订阅和发布项
@@ -65,18 +113,14 @@ class AppComponent extends React.Component {
 		//第二步：请求数据，初始化歌曲列表
 		let list = this.state.songlist;
 		let callback = () => this.playMusic(this.state.playItemIndex);
-		if(list && list.length > 0 ){
+		if(list && list.length > 0 )
 	        callback.call(null);
-		}else
+		else
 			this.reqQQmusic(callback);
-		//第三步：播放音乐
-		//this.playMusic(this.state.playItemIndex)
-		
 	}
-	componentWillUnMount(){
+	componentWillUnmount(){
 		Pubsub.unsubscribe('PLAY_MUSIC');
-		Pubsub.unsubscribe('PLAY_MUSIC_List');
-		$('#player').unbind($.jPlayer.event.ended)
+		$("#player").jPlayer("destroy");
 	}
 	render() {
 		return(
@@ -86,8 +130,8 @@ class AppComponent extends React.Component {
 					<Route exact path='/' component={Player} />
 			      	<Route path='/player/:index' component={Player}/>
 			      	<Route path='/list' component={MusicList}/>
-			  		<Footer />
-			  		<div  id="player" ></div>
+			  		<Footer next={this.forwardMusic} prev={this.backwardMusic} context={this} play={this.playOrPause} isPlay={this.state.isPlay} />
+			  		<div  id="player"  ></div>
 			      </div>
 		      </Router>
 		);

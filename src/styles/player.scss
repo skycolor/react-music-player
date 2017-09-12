@@ -20,6 +20,9 @@
         .music-progress-main {
             height: 3px;
         }
+        .progress-bar{
+            transition: width .5s linear;
+        }
         
         
         @keyframes rotate{

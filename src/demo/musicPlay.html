@@ -13,15 +13,49 @@
 
 	<body>
 		<div id="test"></div>
+		<div>
+			<button id="play">play</button>
+			<button id="pause">pause</button>
+			<button id="next">next</button>
+			<button id="goEnd">goEnd</button>
+			<p id="progress">0</p>
+		</div>
 		<script>
-			var musicUrl = "http://ws.stream.qqmusic.qq.com/203753154.m4a?fromtag=46";
-			$("#test").jPlayer({
+			var musicUrl = "http://ws.stream.qqmusic.qq.com/108709929.m4a?fromtag=46";
+			var nextMusicUrl = "http://ws.stream.qqmusic.qq.com/108029927.m4a?fromtag=46";
+			$("#test").jPlayer({			//配置音乐源文件，并自动播放
 				ready: function() {
 					$(this).jPlayer("setMedia", {
 						mp3: musicUrl
 					}).jPlayer("play");
+				} ,
+				ended: function() { 			//当前音乐结束后触发事件
+					console.log("play end");
+				    $(this).jPlayer("setMedia", {
+						mp3: nextMusicUrl
+					}).jPlayer("play");
+				} ,
+				timeupdate : function(e){		//播放时间更新事件
+					console.log(parseInt(e.jPlayer.status.currentTime));
 				}
 			})
+			document.getElementById("pause").addEventListener("click" , function(){		//暂停
+				$("#test").jPlayer("pause");
+			} , false);
+			document.getElementById("play").addEventListener("click" , function(){		//播放
+				$("#test").jPlayer("play");
+			} , false);
+			document.getElementById("next").addEventListener("click" , function(){		//下一首
+				$("#test").jPlayer("setMedia", {
+							mp3: nextMusicUrl
+						}).jPlayer("play");
+			} , false);
+			document.getElementById("play").addEventListener("click" , function(){		//播放
+				$("#test").jPlayer("play");
+			} , false);
+			document.getElementById("goEnd").addEventListener("click" , function(){		//播放
+				$("#test").jPlayer("playHead", 95);
+			} , false);
 		</script>
 	</body>
 

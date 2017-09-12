@@ -13,8 +13,6 @@ class MusicItem extends React.Component {
 		router: PropTypes.object
 	}
 	handleClick() {
-		Pubsub.publish('PLAY_MUSIC' , this.props.index);
-		storeUtil.saveIndex(this.props.index); 
 		this.context.router.history.push(`/player/${this.props.index}`);
 	}
 	render() {
