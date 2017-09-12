@@ -15,6 +15,7 @@ class Player extends React.Component {
         playItemIndex : storeUtil.getIndex() ,
         curSecs : 0 
      };
+     this.handleProgressClick = this.handleProgressClick.bind(this);
   }
   handlePubsub(){			//处理订阅发布模式
 	Pubsub.subscribe('PLAY_MUSIC_PROGRESS' , (msg , curSecs) =>{
@@ -30,6 +31,13 @@ class Player extends React.Component {
 	let s = secs%60;
 	s = s < 10 ? "0" + s : "" + s;
 	return `${m}:${s}`;
+  }
+  handleProgressClick(e){
+  	let proDom = this.refs.progress;
+  	let progressW = proDom.getBoundingClientRect().width;
+  	let x = e.clientX - proDom.getBoundingClientRect().left - document.body.scrollLeft;
+  	let progress = ((x * 100)/progressW).toFixed(2);
+  	$("#player").jPlayer("playHead", progress);
   }
   componentWillUnmount() {
   	Pubsub.unsubscribe('PLAY_MUSIC_PROGRESS');
@@ -49,7 +57,7 @@ class Player extends React.Component {
 	let seconds = Number(playItem.seconds);
 	let allTime = this.handleTime(seconds);
 	let curTime = this.handleTime(this.state.curSecs);
-	let progress = ((this.state.curSecs * 100)/seconds).toFixed(2)
+	let progress = ((this.state.curSecs * 100)/seconds).toFixed(2);
     return (
 		<section className="container text-center main">
 			<div className="row">
@@ -72,7 +80,7 @@ class Player extends React.Component {
 			<div className="row music-progress" >
 				<div className="col-xs-2 text-right">{curTime}</div>
 				<div className="col-xs-8 music-progress-col">
-					<div className="progress music-progress-main" >
+					<div className="progress music-progress-main" ref="progress" onClick={this.handleProgressClick} >
 					  <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{width : `${progress}%`}}>
 					  </div>
 					</div>
