@@ -76,7 +76,7 @@ class AppComponent extends React.Component {
 		storeUtil.saveIndex(index);
 	}
 	reqQQmusic(callback) { //请求QQ音乐榜单100
-		const requestUrl = 'http://ali-qqmusic.showapi.com/top?topid=6';
+		const requestUrl = 'https://ali-qqmusic.showapi.com/top?topid=6';
 		const signHeader = {
 			'Authorization' : 'APPCODE a79b7a6118d54c2eaf7a1781b820fa73'
 		};
