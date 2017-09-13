@@ -1,7 +1,7 @@
 const key = 'sky_react_music_player_data_';
 
 let storeUtil = {
-    store : window.sessionStorage ,
+    store : window.localStorage ,
     saveList(obj){        //存储列表
         this.store.setItem(key + "list" , JSON.stringify(obj));
     } ,

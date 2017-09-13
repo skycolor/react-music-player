@@ -21,7 +21,8 @@ class Player extends React.Component {
 	Pubsub.subscribe('PLAY_MUSIC_PROGRESS' , (msg , curSecs) =>{
 		this.setState({
 			curSecs : curSecs ,
-			playItemIndex : storeUtil.getIndex() 
+			playItemIndex : storeUtil.getIndex()  ,
+			songlist : storeUtil.getList()
 		});
 	});
   }
