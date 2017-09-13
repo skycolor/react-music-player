@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<title></title>
@@ -10,7 +9,6 @@
 		<script type="text/javascript" src='http://www.jplayer.cn/demos/lib/jquery.min.js'></script>
 		<script type="text/javascript" src='http://www.jplayer.cn/demos/dist/jplayer/jquery.jplayer.min.js'></script>
 	</head>
-
 	<body>
 		<div id="test"></div>
 		<div>
@@ -36,27 +34,26 @@
 					}).jPlayer("play");
 				} ,
 				timeupdate : function(e){		//播放时间更新事件
-					console.log(parseInt(e.jPlayer.status.currentTime));
+					$("#progress").text(parseInt(e.jPlayer.status.currentTime));
 				}
 			})
-			document.getElementById("pause").addEventListener("click" , function(){		//暂停
+			$("#pause").bind("click" , function(){		//暂停
 				$("#test").jPlayer("pause");
-			} , false);
-			document.getElementById("play").addEventListener("click" , function(){		//播放
+			});
+			$("#play").bind("click" , function(){		//播放
 				$("#test").jPlayer("play");
-			} , false);
-			document.getElementById("next").addEventListener("click" , function(){		//下一首
+			});
+			$("#next").bind("click" , function(){		//下一首
 				$("#test").jPlayer("setMedia", {
 							mp3: nextMusicUrl
 						}).jPlayer("play");
-			} , false);
-			document.getElementById("play").addEventListener("click" , function(){		//播放
+			});
+			$("#play").bind("click" , function(){		//播放
 				$("#test").jPlayer("play");
-			} , false);
-			document.getElementById("goEnd").addEventListener("click" , function(){		//播放
+			});
+			$("#goEnd").bind("click" , function(){		//跳转到95%的位置播放
 				$("#test").jPlayer("playHead", 95);
-			} , false);
+			});
 		</script>
 	</body>
-
 </html>
