@@ -130,6 +130,7 @@ class AppComponent extends React.Component {
 					<Route exact path='/' component={Player} />
 			      	<Route path='/player/:index' component={Player}/>
 			      	<Route path='/list' component={MusicList}/>
+			      	<Route component={Player}/>
 			  		<Footer next={this.forwardMusic} prev={this.backwardMusic} context={this} play={this.playOrPause} isPlay={this.state.isPlay} />
 			  		<div  id="player"  ></div>
 			      </div>
